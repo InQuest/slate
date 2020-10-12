@@ -7,12 +7,29 @@ outfile=index.html.md
 infile=labs_swagger.yaml
 
 echo "Converting OpenAPI YAML to Markdown...."
-diff $source/$infile $build/$infile > /dev/null 2>&1
-swagger_status=$?
+
+# do we have changes?
+# NOTE: we are bypassing this check and always assuming there are changes.
+# diff $source/$infile $build/$infile > /dev/null 2>&1
+# swagger_status=$?
+swagger_status=1
+
 if [ $swagger_status -ne 0 ]; then
-    widdershins $source/$infile -o $source/prep.html.md
+
+    # if a local widdershins folder doesn't exist. glone the repo and install all dependencies locally.
+    # NOTE: we assume npm/node is available.
+    if [ ! -d ./widdershins ]; then
+        git clone https://github.com/Mermade/widdershins.git
+        cd widdershins
+        npm i
+        cd ..
+    fi
+
+    # convert from YAML to Slate.
+    node ./widdershins/widdershins.js $source/$infile -o $source/prep.html.md
+
+    # post processing.
     sed -E -e '/(get|post)__/s/_/\//g' -e 's/(get|post)\/\//\//g' $source/prep.html.md > $source/$outfile
-    # sed -E -e 's/(get|post)__/\1 /' -e '/(## |id\=\")(get|post) /s/_/\//g' $source/prep.html.md > $source/$outfile
     echo "Done"
 else
     echo "No change to the OpenAPI YAML file. Skipping."
@@ -48,5 +65,5 @@ rm $dest/prep.html
 cp build_docs.sh $dest
 echo "Done"
 
-echo "Finished! Docs are running at http://localhost:4567"
+echo "Finished! Docs are running at http://localhost:4567 then 'docker stop slate' when satisfied"
 exit 0
