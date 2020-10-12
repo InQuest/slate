@@ -1,0 +1,2304 @@
+---
+openapi: "3.0.0"
+info:
+  title: "InQuest Labs API"
+  description: "labs.inquest.net RESTful API"
+  version: "1.0.2"
+servers:
+- url: "https://labs.inquest.net"
+  description: "InQuest Labs Production API"
+- url: "https://virtserver.swaggerhub.com/InQuest.net/InQuestLabs/1.0.1"
+  description: "SwaggerHub API Auto Mocking"
+tags:
+- name: "DFI"
+  description: "DFI related operations."
+- name: "IOC"
+  description: "IOC related operations."
+- name: "Reputation"
+  description: "Reputation related operations."
+- name: "YARA"
+  description: "YARA related operations."
+paths:
+  /api/yara/base64re:
+    get:
+      tags:
+      - "YARA"
+      summary: "Regex base64 convert."
+      description: "Converts a plain text regular expression into a base64 compatible\
+        \ version."
+      parameters:
+      - name: "instring"
+        in: "query"
+        description: "Input string to convert to regex that will match within base64\
+          \ encoded content."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "pedram[a-z]+was.here"
+      - name: "option"
+        in: "query"
+        description: "Pre-processor option that signifies widening **instring** by\
+          \ a selectable endian-ness. \nValid values are *NONE*, *WIDEN_BIG*, and\
+          \ *WIDEN_LITTLE*. The default value is *NONE*.\n"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+          enum:
+          - "NONE"
+          - "WIDEN_BIG"
+          - "WIDEN_LITTLE"
+          default: "NONE"
+        example: "WIDEN_BIG"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "string"
+                    description: "The base64 encoded regular expression."
+              example:
+                success: true
+                data: "(cABlAGQAcgBhAG0A[YZa-e][AQgw]B[0-6h-z]AHcAYQBzA[A-P][048AEIMQUYcgkosw]AaABlAHIAZQ[A-D]|[\\\
+                  x2b\\x2f-9A-Za-z][3HXn]A{2}ZQBkAHIAYQBtA[GH][048AEIMQUYcgkosw]A[YZa-e][AQgw]B3AGEAcw[A-D][\\\
+                  x2b\\x2f-9A-Za-z]AGgAZQByAGUA|[\\x2b\\x2f-9A-Za-z]{2}[159BFJNRVZdhlptx]wAGUAZAByAGEAbQB[0-6h-z]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[23GHWXmn][048AEIMQUYcgkosw]AdwBhAHMA[\\\
+                  x2b\\x2f-9A-Za-z][AQgw]BoAGUAcgBlA[A-P]|[\\x2b\\x2f-9A-Za-z]{2}[159BFJNRVZdhlptx]wAGUAZAByAGEAbQB[0-6h-z]AHcAYQBzA[A-P][048AEIMQUYcgkosw]AaABlAHIAZQ[A-D]|cABlAGQAcgBhAG0A[YZa-e][AQgw]([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[YZa-e][AQgw]B3AGEAcw[A-D][\\x2b\\\
+                  x2f-9A-Za-z]AGgAZQByAGUA|[\\x2b\\x2f-9A-Za-z]{2}[159BFJNRVZdhlptx]wAGUAZAByAGEAbQB[0-6h-z]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[YZa-e][AQgw]B3AGEAcw[A-D][\\x2b\\\
+                  x2f-9A-Za-z]AGgAZQByAGUA|cABlAGQAcgBhAG0A[YZa-e][AQgw]([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[\\x2b\\x2f-9A-Za-z][YZa-e][AQgw]B3AGEAcw[A-D][\\\
+                  x2b\\x2f-9A-Za-z]AGgAZQByAGUA|[\\x2b\\x2f-9A-Za-z][3HXn]A{2}ZQBkAHIAYQBtA[GH][048AEIMQUYcgkosw]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[YZa-e][AQgw]B3AGEAcw[A-D][\\x2b\\\
+                  x2f-9A-Za-z]AGgAZQByAGUA|[\\x2b\\x2f-9A-Za-z]{2}[159BFJNRVZdhlptx]wAGUAZAByAGEAbQB[0-6h-z]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[159BFJNRVZdhlptx][0-6h-z]AHcAYQBzA[A-P][048AEIMQUYcgkosw]AaABlAHIAZQ[A-D]|[\\\
+                  x2b\\x2f-9A-Za-z][3HXn]A{2}ZQBkAHIAYQBtA[GH][048AEIMQUYcgkosw]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[\\x2b\\x2f-9A-Za-z][YZa-e][AQgw]B3AGEAcw[A-D][\\\
+                  x2b\\x2f-9A-Za-z]AGgAZQByAGUA|cABlAGQAcgBhAG0A[YZa-e][AQgw]B3AGEAcw[A-D][\\\
+                  x2b\\x2f-9A-Za-z]AGgAZQByAGUA|[\\x2b\\x2f-9A-Za-z]{2}[159BFJNRVZdhlptx]wAGUAZAByAGEAbQB[0-6h-z]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[\\x2b\\x2f-9A-Za-z][YZa-e][AQgw]B3AGEAcw[A-D][\\\
+                  x2b\\x2f-9A-Za-z]AGgAZQByAGUA|cABlAGQAcgBhAG0A[YZa-e][AQgw]([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[159BFJNRVZdhlptx][0-6h-z]AHcAYQBzA[A-P][048AEIMQUYcgkosw]AaABlAHIAZQ[A-D]|[\\\
+                  x2b\\x2f-9A-Za-z][3HXn]A{2}ZQBkAHIAYQBtA[GH][048AEIMQUYcgkosw]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[23GHWXmn][048AEIMQUYcgkosw]AdwBhAHMA[\\\
+                  x2b\\x2f-9A-Za-z][AQgw]BoAGUAcgBlA[A-P]|[\\x2b\\x2f-9A-Za-z]{2}[159BFJNRVZdhlptx]wAGUAZAByAGEAbQB[0-6h-z]A[GH][048AEIMQUYcgkosw]AdwBhAHMA[\\\
+                  x2b\\x2f-9A-Za-z][AQgw]BoAGUAcgBlA[A-P]|cABlAGQAcgBhAG0A[YZa-e][AQgw]([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[23GHWXmn][048AEIMQUYcgkosw]AdwBhAHMA[\\\
+                  x2b\\x2f-9A-Za-z][AQgw]BoAGUAcgBlA[A-P]|[\\x2b\\x2f-9A-Za-z][3HXn]A{2}ZQBkAHIAYQBtA[GH][048AEIMQUYcgkosw]A([23GHWXmn][048AEIMQUYcgkosw]|[YZa-e][AQgw]|[159BFJNRVZdhlptx][0-6h-z]A|[\\\
+                  x2b\\x2f-9A-Za-z][YZa-e][AQgw])*[159BFJNRVZdhlptx][0-6h-z]AHcAYQBzA[A-P][048AEIMQUYcgkosw]AaABlAHIAZQ[A-D]|[\\\
+                  x2b\\x2f-9A-Za-z][3HXn]A{2}ZQBkAHIAYQBtA[GH][048AEIMQUYcgkosw]AdwBhAHMA[\\\
+                  x2b\\x2f-9A-Za-z][AQgw]BoAGUAcgBlA[A-P])"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                instring missing:
+                  value:
+                    success: false
+                    data: {}
+                    error: "Parameter 'instring' is required."
+                invalid option:
+                  value:
+                    success: false
+                    data: {}
+                    error: "The 'option' parameter must be one of 'WIDEN_BIG', 'WIDEN_LITTLE'."
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              example:
+                success: false
+                data: {}
+                error: "Input string not a properly formatted regular expression."
+  /api/yara/mixcase:
+    get:
+      tags:
+      - "YARA"
+      summary: "Regex generator for mixed-case hex-encoded strings."
+      description: "Returns a regex pattern that matches a mixed case of the input\
+        \ hex-string."
+      parameters:
+      - name: "instring"
+        in: "query"
+        description: "Input string to convert to regex that will match within mixed\
+          \ case content."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "pedram[a-z]+was.here"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "string"
+                    description: "The mixed case regular expression."
+              example:
+                success: true
+                data: "[57]0[46]5[46]4[57]2[46]1[46]d5b[46]12d[57]a5d2b[57]7[46]1[57]32e[46]8[46]5[57]2[46]5"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              example:
+                success: false
+                data: {}
+                error: "Parameter 'instring' is required."
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              example:
+                success: false
+                data: {}
+                error: "Unknown exception in mixcasification process."
+  /api/yara/trigger:
+    get:
+      tags:
+      - "YARA"
+      summary: "String to uint()."
+      description: "Convert strings into uint() equivalent for building fast, efficient\
+        \ YARA conditions. For a better understanding of this functionality and why\
+        \ it's useful, refer to the InQuest blog post [here](https://inquest.net/blog/2018/09/30/yara-performance).\n"
+      parameters:
+      - name: "trigger"
+        in: "query"
+        description: "The string to convert to YARA integer conditions."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "CWS"
+      - name: "offset"
+        in: "query"
+        description: "The integer or hex offset in a file for the YARA rule to examine.\
+          \ Default value is *0*.\n"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          oneOf:
+          - type: "integer"
+          - type: "string"
+        examples:
+          Integer:
+            value: 0
+          Hex:
+            value: "0xff"
+      - name: "is_hex"
+        in: "query"
+        description: "Set to *true* if the value of **trigger** should be interpreted\
+          \ as hexidecimal instead of a string. Default is *false*.\n"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "boolean"
+          default: false
+        example: false
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "string"
+                    description: "The YARA condition matching the value in **trigger**.\n"
+              example:
+                success: true
+                data: "/* trigger = 'CWS' */\n(uint16be(0x0) == 0x4357 and uint8(0x2)\
+                  \ == 0x53)"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                missing trigger:
+                  value:
+                    success: false
+                    data: []
+                    error: "Parameter 'trigger' is required."
+                invalid is_hex:
+                  value:
+                    success: false
+                    data: []
+                    error: "Parameter 'is_hex' must be boolean."
+                invalid trigger:
+                  value:
+                    success: false
+                    data: []
+                    error: "When parameter 'is_hex' is True, 'trigger' must be all\
+                      \ hexadecimel."
+                invalid offset:
+                  value:
+                    success: false
+                    data: []
+                    error: "Parameter 'offset' must be decimal or hexadecimel."
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              example:
+                success: false
+                data: {}
+                error: "Unknown exception in triggerification process."
+  /api/repdb/search:
+    get:
+      tags:
+      - "Reputation"
+      summary: "Reputation Database search."
+      description: "Search the reputation database for the specified keyword."
+      parameters:
+      - name: "keyword"
+        in: "query"
+        description: "The search term."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "exploit.co"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching query results."
+                    items:
+                      $ref: "#/components/schemas/Reputation"
+              example:
+                success: true
+                data:
+                - created_date: "Sat, 05 Sep 2020 05:56:40 GMT"
+                  data: "paben.co.uk/cyndeiq.exe"
+                  data_type: "url"
+                  derived: "paben.co.uk"
+                  derived_type: "domain"
+                  source: "urlhaus"
+                  source_url: "https://urlhaus.abuse.ch/host/paben.co.uk"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                missing keyword:
+                  value:
+                    success: false
+                    data: {}
+                    error: "No search 'keyword' specified."
+                keyword length:
+                  value:
+                    success: false
+                    data: {}
+                    error: "The 'keyword' parameter must be at least 3 bytes long."
+                keyword illegal:
+                  value:
+                    success: false
+                    data: {}
+                    error: "The 'keyword' parameter can not contain percent (%), asterisk\
+                      \ (*), or sequential underscores (__)."
+  /api/repdb/sources:
+    get:
+      tags:
+      - "Reputation"
+      summary: "Reputation database sources."
+      description: "Lists the reputation database sources."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                    description: "The reputation feed source and URL."
+              example:
+                success: true
+                data:
+                  abuse.ch: "https://abuse.ch"
+                  alienvault: "https://www.alienvault.com/open-threat-exchange"
+                  bambenek: "http://osint.bambenekconsulting.com/feeds/"
+                  binarydefense: "https://www.binarydefense.com"
+                  blocklist: "http://lists.blocklist.de"
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/repdb/list:
+    get:
+      tags:
+      - "Reputation"
+      summary: "List of repdb artifacts."
+      description: "Lists the artifacts in the reputation database. \n**Note**: A\
+        \ maximum of 1337 records will be returned with or without a valid API key.\n"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching query results."
+                    items:
+                      $ref: "#/components/schemas/Reputation"
+              example:
+                success: true
+                data:
+                - created_date: "Sat, 05 Sep 2020 05:56:40 GMT"
+                  data: "beautyevent.ru/Invoice-for-j/b-03/05/2018/"
+                  data_type: "url"
+                  derived: "beautyevent.ru"
+                  derived_type: "domain"
+                  source: "urlhaus"
+                  source_url: "https://urlhaus.abuse.ch/host/beautyevent.ru"
+                - created_date: "Sat, 05 Sep 2020 05:56:40 GMT"
+                  data: "hellohello-pension.com/Summit-Companies-Invoice-1451397/"
+                  data_type: "url"
+                  derived: "hellohello-pension.com"
+                  derived_type: "domain"
+                  source: "urlhaus"
+                  source_url: "https://urlhaus.abuse.ch/host/hellohello-pension.com"
+                - created_date: "Sat, 05 Sep 2020 05:56:40 GMT"
+                  data: "opora-company.ru/O5Go/"
+                  data_type: "url"
+                  derived: "opora-company.ru"
+                  derived_type: "domain"
+                  source: "urlhaus"
+                  source_url: "https://urlhaus.abuse.ch/host/opora-company.ru"
+                - created_date: "Sat, 05 Sep 2020 05:56:40 GMT"
+                  data: "sportists.com/Paid-Invoice/"
+                  data_type: "url"
+                  derived: "sportists.com"
+                  derived_type: "domain"
+                  source: "urlhaus"
+                  source_url: "https://urlhaus.abuse.ch/host/sportists.com"
+                - created_date: "Sat, 05 Sep 2020 05:56:40 GMT"
+                  data: "gerrydear.id.au/INFO/PEGF72862VFJCQN/Mar-01-2018-803700718/YVYK-EJI/"
+                  data_type: "url"
+                  derived: "gerrydear.id.au"
+                  derived_type: "domain"
+                  source: "urlhaus"
+                  source_url: "https://urlhaus.abuse.ch/host/gerrydear.id.au"
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/iocdb/search:
+    get:
+      tags:
+      - "IOC"
+      summary: "IOC search."
+      description: "Search the IOC database for the specified keyword."
+      parameters:
+      - name: "keyword"
+        in: "query"
+        description: "The search term."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "exploit.co"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching query results."
+                    items:
+                      $ref: "#/components/schemas/Indicator"
+              example:
+                success: true
+                data:
+                - artifact: "nopsansi.org"
+                  artifact_type: "domain"
+                  created_date: "Fri, 04 Sep 2020 03:26:31 GMT"
+                  reference_link: "https://twitter.com/ecarlesi/status/1301722047601610753"
+                  reference_text: "Possible threat on hxxps://nopsansi[.]org/biw/O[.]Drive%20(LATEST)[.]zip\
+                    \ #phishing #opendir  @google"
+                - artifact: "nopsansi.org"
+                  artifact_type: "domain"
+                  created_date: "Fri, 04 Sep 2020 03:26:31 GMT"
+                  reference_link: "https://twitter.com/ecarlesi/status/1301722057009487872"
+                  reference_text: "Possible threat on hxxps://nopsansi[.]org/nep/O[.]Drive%20(LATEST)[.]zip\
+                    \ #phishing #opendir  @google"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                missing keyword:
+                  value:
+                    success: false
+                    data: {}
+                    error: "No search 'keyword' specified."
+                keyword length:
+                  value:
+                    success: false
+                    data: {}
+                    error: "The 'keyword' parameter must be at least 3 bytes long."
+                keyword illegal:
+                  value:
+                    success: false
+                    data: {}
+                    error: "The 'keyword' parameter can not contain percent (%), asterisk\
+                      \ (*), or sequential underscores (__)."
+  /api/iocdb/sources:
+    get:
+      tags:
+      - "IOC"
+      summary: "IOC database sources."
+      description: "Lists the IOC database sources."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                    description: "The IOC sources and their URL."
+              example:
+                success: true
+                data:
+                  anomali: "https://www.anomali.com/site/blog-rss"
+                  carbonblack: "http://www.carbonblack.com/feed/"
+                  clearskysec: "http://www.clearskysec.com/feed/"
+                  fireeye: "https://www.fireeye.com/blog/threat-research/_jcr_content.feed"
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/iocdb/list:
+    get:
+      tags:
+      - "IOC"
+      summary: "List of iocdb artifacts."
+      description: "List of artifacts in the IOC database. \n**Note**: A maximum of\
+        \ 1337 records will be returned with or without a valid API key.\n"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching query results."
+                    items:
+                      $ref: "#/components/schemas/Indicator"
+              example:
+                success: true
+                data:
+                - artifact: "nopsansi.org"
+                  artifact_type: "domain"
+                  created_date: "Fri, 04 Sep 2020 03:26:31 GMT"
+                  reference_link: "https://twitter.com/ecarlesi/status/1301722047601610753"
+                  reference_text: "Possible threat on hxxps://nopsansi[.]org/biw/O[.]Drive%20(LATEST)[.]zip\
+                    \ #phishing #opendir  @google"
+                - artifact: "nopsansi.org"
+                  artifact_type: "domain"
+                  created_date: "Fri, 04 Sep 2020 03:26:31 GMT"
+                  reference_link: "https://twitter.com/ecarlesi/status/1301722057009487872"
+                  reference_text: "Possible threat on hxxps://nopsansi[.]org/nep/O[.]Drive%20(LATEST)[.]zip\
+                    \ #phishing #opendir  @google"
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/filters:
+    get:
+      tags:
+      - "DFI"
+      summary: "Regex filters for DFI layers."
+      description: "Various filters to highlight or mask content from DFI layers."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    required:
+                    - "embedded-logic"
+                    type: "object"
+                    properties:
+                      embedded-logic:
+                        type: "array"
+                        items:
+                          $ref: "#/components/schemas/DFIFilter"
+                    description: "The DFI filters."
+              example:
+                success: true
+                data:
+                  embedded-logic:
+                  - is_case_sensitive: false
+                    is_regex: true
+                    title: "Macro: Filter Benign Lines"
+                    value: "^((?!(rem|attribute|dim|\\s*'|\\s*on error|end (sub|function))).)*$"
+                  - is_case_sensitive: false
+                    is_regex: true
+                    title: "Macro: Highlight Functions and Calls"
+                    value: "(^|\\n|\\s*)[.(\\s][A-Za-z0-9_]+\\s*\\("
+                  - is_case_sensitive: false
+                    is_regex: true
+                    title: "Macro: Highlight Line Continuations"
+                    value: "_$"
+                  - is_case_sensitive: false
+                    is_regex: true
+                    title: "Macro: Highlight String Operations"
+                    value: "\\b(cstr|format|instr|instrrev|join|lcase|left|len|like|ltrim|mid|replace|right|rtrim|split|str|strcomp|strconv|string|strreverse|trim|ucase|val)\\\
+                      b"
+                  - is_case_sensitive: false
+                    is_regex: true
+                    title: "Macro: Highlight Subroutine Definitions"
+                    value: "(^|\\n)\\s*(private\\s*|public\\s*)?(function|sub)[\\\
+                      s_]*"
+                  - is_case_sensitive: false
+                    is_regex: true
+                    title: "Macro: Highlight Suspicious Lines"
+                    value: "\\b(call|cmd|concat|create|createobject|download|environ|exec|eval|function|hidden|install|open|shell|run|start|write|xor)\\\
+                      b"
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/search/alert:
+    get:
+      tags:
+      - "DFI"
+      summary: "Search DFI by Alert."
+      description: "Search the DFI results by a single alert title."
+      parameters:
+      - name: "title"
+        in: "query"
+        description: "The"
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "Analysis Evasion Strings"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching DFI results."
+                    items:
+                      $ref: "#/components/schemas/DFIResult"
+              example:
+                success: true
+                data:
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:11 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "fb66ad2d748d6ff30bdfbb15fc42ee8386772702b3bfef5317b99c8fcdcc6059"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 9
+                  vt_weight: 2.700000047683716
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:31 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "d6ac955b6756b0ca5eb236db66dc54c1e84c74067ace61b47adcbe1409c66222"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 8
+                  vt_weight: 2.700000047683716
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                MissingTitle:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'title' parameter was not recognized."
+                Invalid:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'title' parameter contained invalid characters."
+                NotFound:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'title' parameter was not recognized."
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/search/ext/{source}:
+    get:
+      tags:
+      - "DFI"
+      summary: "Search DFI by Extraction Layer."
+      description: "Search the DFI results extraction layer and **keyword**, where\
+        \ **keyword** is a text fragment to search for and the extraction layer is\
+        \ one of the following below:\n\n  * *ext_code* - The Embedded Logic layer\n\
+        \  * *ext_context* - The Semantic Text layer\n  * *ext_ocr* - The Semantic\
+        \ OCR text layer\n  * *ext_metadata* - The Extracted Metadata layer\n"
+      parameters:
+      - name: "source"
+        in: "path"
+        description: "The extraction layer to search.\nValid values are *ext_code*,\
+          \ *ext_context*, *ext_ocr*, *ext_metadata*.\n"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          enum:
+          - "ext_code"
+          - "ext_context"
+          - "ext_ocr"
+          - "ext_metadata"
+      - name: "keyword"
+        in: "query"
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "End Sub"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching DFI results."
+                    items:
+                      $ref: "#/components/schemas/DFIResult"
+              example:
+                success: true
+                data:
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:11 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "fb66ad2d748d6ff30bdfbb15fc42ee8386772702b3bfef5317b99c8fcdcc6059"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 9
+                  vt_weight: 2.700000047683716
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:31 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "d6ac955b6756b0ca5eb236db66dc54c1e84c74067ace61b47adcbe1409c66222"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 8
+                  vt_weight: 2.700000047683716
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                InvalidSource:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'source' parameter must be one of ext_code, ext_context,\
+                      \ ext_ocr, ext_metadata."
+                MissingKeyword:
+                  value:
+                    success: false
+                    data: []
+                    error: "No search 'keyword' specified."
+                KeywordLength:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'keyword' parameter must be at least 4 bytes long."
+                InvalidKeyword:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'keyword' parameter can not contain percent (%), asterisk\
+                      \ (*), or sequential underscores (__)."
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/search/hash/{source}:
+    get:
+      tags:
+      - "DFI"
+      summary: "Search DFI by hash."
+      description: "Search the DFI results by file **hash**, where the **hash** must\
+        \ conform to one of the following types:\n\n  * md5\n  * sha1\n  * sha256\n\
+        \  * sha512\n"
+      parameters:
+      - name: "source"
+        in: "path"
+        description: "The **hash** type to search by.\nValid values are *md5*, *sha1*,\
+          \ *sha256*, *sha512*.\n"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          enum:
+          - "md5"
+          - "sha1"
+          - "sha256"
+          - "sha512"
+          default: "sha256"
+      - name: "hash"
+        in: "query"
+        description: "Hash to search by."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching DFI results."
+                    items:
+                      $ref: "#/components/schemas/DFIResult"
+              example:
+                success: true
+                data:
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:11 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "fb66ad2d748d6ff30bdfbb15fc42ee8386772702b3bfef5317b99c8fcdcc6059"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 9
+                  vt_weight: 2.700000047683716
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:31 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "d6ac955b6756b0ca5eb236db66dc54c1e84c74067ace61b47adcbe1409c66222"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 8
+                  vt_weight: 2.700000047683716
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                InvalidSource:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'source' parameter must be one of md5, sha1, sha256,\
+                      \ sha512."
+                MissingHash:
+                  value:
+                    success: false
+                    data: []
+                    error: "No search 'hash' specified."
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                InvalidMD5:
+                  value:
+                    success: false
+                    data: []
+                    error: "Invalid MD5 hash supplied."
+                InvalidSHA1:
+                  value:
+                    success: false
+                    data: []
+                    error: "Invalid SHA1 hash supplied."
+                InvalidSHA256:
+                  value:
+                    success: false
+                    data: []
+                    error: "Invalid SHA256 hash supplied."
+                InvalidSHA512:
+                  value:
+                    success: false
+                    data: []
+                    error: "Invalid SHA512 hash supplied."
+  /api/dfi/search/ioc/{kind}:
+    get:
+      tags:
+      - "DFI"
+      summary: "Search DFI by IOC."
+      description: "Search the DFI results by IOC, where IOC is one of the following:\n\
+        \n  * domain\n  * email\n  * filename\n  * ip\n  * registry\n  * url\n  *\
+        \ xmpid\n  \nThis endpoint is often used for pivoting to find files with an\
+        \ IOC that matches **keyword**.\n"
+      parameters:
+      - name: "kind"
+        in: "path"
+        description: "The IOC **kind** to search for.\nThe valid IOCs are *domain*,\
+          \ *email*, *filename*, *ip*, *registry*, *url*, and *xmpid*.\n"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          enum:
+          - "domain"
+          - "email"
+          - "filename"
+          - "ip"
+          - "registry"
+          - "url"
+          - "xmpid"
+      - name: "keyword"
+        in: "query"
+        description: "The IOC text to search for."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+        example: "exploit.co"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching DFI results."
+                    items:
+                      $ref: "#/components/schemas/DFIResult"
+              example:
+                success: true
+                data:
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:11 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "fb66ad2d748d6ff30bdfbb15fc42ee8386772702b3bfef5317b99c8fcdcc6059"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 9
+                  vt_weight: 2.700000047683716
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:31 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "d6ac955b6756b0ca5eb236db66dc54c1e84c74067ace61b47adcbe1409c66222"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 8
+                  vt_weight: 2.700000047683716
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                InvalidKind:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'kind' parameter must be one of domain, email, filename,\
+                      \ ip, registry, url, or xmpid."
+                MissingKeyword:
+                  value:
+                    success: false
+                    data: []
+                    error: "No search 'keyword' specified."
+                KeywordLength:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'keyword' parameter must be at least 4 bytes long."
+                InvalidKeyword:
+                  value:
+                    success: false
+                    data: []
+                    error: "The 'keyword' parameter can not contain percent (%), asterisk\
+                      \ (*), or sequential underscores (__)."
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/sources:
+    get:
+      tags:
+      - "DFI"
+      summary: "DFI sources."
+      description: "List of DFI sources."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                    description: "The DFI sources and links to their corresponding\
+                      \ source code."
+              example:
+                success: true
+                data:
+                  macro_hunter: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  maldoc_hunter: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/maldoc_hunter.rule"
+                  malpdf_hunter: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/malpdf_hunter.rule"
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/details:
+    get:
+      tags:
+      - "DFI"
+      summary: "Retrieve file details."
+      description: "Pull DFI details for a given file."
+      parameters:
+      - name: "sha256"
+        in: "query"
+        description: "The SHA256 hash of the file to retrieve details of."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    $ref: "#/components/schemas/DFIDetails"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                MissingSHA256:
+                  value:
+                    success: false
+                    data: []
+                    error: "Parameter 'sha256' is required."
+                InvalidSHA256:
+                  value:
+                    success: false
+                    data: []
+                    error: "Supplied 'sha256' value is not a valid hash."
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                NotFinished:
+                  value:
+                    success: false
+                    data: []
+                    error: "Analysis for 518a94661be4f9e85eec5e5bae4bdec4c6890a1883f25959a9507452b0f9c698\
+                      \ is still pending."
+                NotFound:
+                  value:
+                    success: false
+                    data: []
+                    error: "No DFI record found for 518a94661be4f9e85eec5e5bae4bdec4c6890a1883f25959a9507452b0f9c698."
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/details/attributes:
+    get:
+      tags:
+      - "DFI"
+      summary: "Retrieve file attributes."
+      description: "Pull attributes for a given file. An attribute is typically an\
+        \ IOC associated with the file.\n"
+      parameters:
+      - name: "sha256"
+        in: "query"
+        description: "The SHA256 hash of the file to retrieve details of."
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    $ref: "#/components/schemas/Attribute"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                MissingSHA256:
+                  value:
+                    success: false
+                    data: []
+                    error: "Parameter 'sha256' is required."
+                InvalidSHA256:
+                  value:
+                    success: false
+                    data: []
+                    error: "Supplied 'sha256' value is not a valid hash."
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/download:
+    get:
+      tags:
+      - "DFI"
+      summary: "Download sample."
+      description: "Retrieve the file sample. If the optional encrypt_download flag\
+        \ is set to True, then the file will be returned in an zip archive encrypted\
+        \ with the password 'infected'.\n**Note**: If using InQuest Labs without an\
+        \ API key, you will not be able to download files and will receive a 500 status\
+        \ code.\n"
+      parameters:
+      - name: "sha256"
+        in: "query"
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+      - name: "encrypt_downloads"
+        in: "query"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          type: "boolean"
+          default: false
+      responses:
+        "200":
+          description: "The sample file."
+          content:
+            application/octet-stream:
+              schema:
+                type: "string"
+                format: "binary"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                MissingSHA256:
+                  value:
+                    success: false
+                    data: []
+                    error: "Parameter 'sha256' is required."
+                InvalidSHA256:
+                  value:
+                    success: false
+                    data: []
+                    error: "Supplied 'sha256' value is not a valid hash."
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                Disabled:
+                  value:
+                    success: false
+                    data: []
+                    error: "Open downloads disabled due to abuse. Sorry, we tried.\
+                      \ Contact us via email letting us know who you are and what\
+                      \ you're working on and we'll generate an API for you key."
+                NotFound:
+                  value:
+                    success: false
+                    data: []
+                    error: "No DFI record found for 518a94661be4f9e85eec5e5bae4bdec4c6890a1883f25959a9507452b0f9c698"
+      security:
+      - authorization: []
+  /api/dfi/list:
+    get:
+      tags:
+      - "DFI"
+      summary: "List of DFI results."
+      description: "Lists all DFI results starting with the most recent. \n**Note**:\
+        \ The maximum number of returned results is 1337.\n"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The matching DFI results."
+                    items:
+                      $ref: "#/components/schemas/DFIResult"
+              example:
+                success: true
+                data:
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:11 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "fb66ad2d748d6ff30bdfbb15fc42ee8386772702b3bfef5317b99c8fcdcc6059"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 9
+                  vt_weight: 2.700000047683716
+                - analysis_completed: true
+                  classification: "MALICIOUS"
+                  file_type: "DOC"
+                  first_seen: "Wed, 02 Sep 2020 12:28:56 GMT"
+                  image: false
+                  inquest_alerts: []
+                  last_inquest_featext: "Wed, 02 Sep 2020 12:31:31 GMT"
+                  len_code: 71560
+                  len_context: 21
+                  len_metadata: 1308
+                  len_ocr: 276
+                  mime_type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  sha256: "d6ac955b6756b0ca5eb236db66dc54c1e84c74067ace61b47adcbe1409c66222"
+                  size: 92646
+                  subcategory: "macro_hunter"
+                  subcategory_url: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+                  vt_positives: 8
+                  vt_weight: 2.700000047683716
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/list/alert/title:
+    get:
+      tags:
+      - "DFI"
+      summary: "DFI heuristic labels."
+      description: "Retrieve a list of all DFI heuristic labels."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "array"
+                    description: "The InQuest alert titles."
+                    items:
+                      type: "string"
+              example:
+                success: true
+                data:
+                - "Analysis Evasion Strings"
+                - "Base64 Encoded Executable in Macro"
+                - "Chunked Suspicious Strings"
+                - "Executable Embedded within Image"
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/queue:
+    get:
+      tags:
+      - "DFI"
+      summary: "Files ahead of you in queue."
+      description: "How many files are in queue to be processed currently."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "integer"
+                    description: "The number of files in the DFI queue."
+              example:
+                success: true
+                data: 40
+        "500":
+          $ref: "#/components/schemas/APIResponse"
+  /api/dfi/upload:
+    post:
+      tags:
+      - "DFI"
+      summary: "Upload a sample."
+      description: "Upload a file for DFI inspection. \n**Note**: The maximum file\
+        \ size that can be uploaded is 15MB.\n"
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: "string"
+              format: "binary"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "string"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "string"
+                    description: "The SHA256 hash of the uploaded file."
+              example:
+                success: true
+                data: "518a94661be4f9e85eec5e5bae4bdec4c6890a1883f25959a9507452b0f9c698"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                NoFile:
+                  value:
+                    success: false
+                    data: []
+                    error: "No file received."
+                InvalidFile:
+                  value:
+                    success: false
+                    data: []
+                    error: "Invalid file type received. Valid types include doc, xls,\
+                      \ ppt, docx, xlsx, pptx."
+        "413":
+          description: "Too Large"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              example:
+                success: false
+                data: []
+                error: "Maximum file size of 15MB exceeded."
+        "500":
+          description: "Server Error"
+          content:
+            application/json:
+              schema:
+                required:
+                - "data"
+                - "success"
+                type: "object"
+                properties:
+                  success:
+                    type: "boolean"
+                    description: "False if there was an error processing the request,\
+                      \ otherwise True."
+                  data:
+                    type: "object"
+                  error:
+                    type: "string"
+                    description: "The error message when handling the request if there\
+                      \ was one."
+              examples:
+                FailedSave:
+                  value:
+                    success: false
+                    data: []
+                    error: "Failed saving file."
+                FailedQueue:
+                  value:
+                    success: false
+                    data: []
+                    error: "Unable to queue file for analysis."
+components:
+  schemas:
+    Alert:
+      type: "object"
+      properties:
+        category:
+          type: "string"
+          description: "The alert severity."
+          enum:
+          - "suspicious"
+          - "evasive"
+          - "info"
+          - "malicious"
+        description:
+          type: "string"
+          description: "The alert description."
+          example: "Detected a macro that references a suspicious number of tersely\
+            \ named variables."
+        reference:
+          type: "string"
+          description: "A link the the alert."
+        title:
+          type: "string"
+          description: "The alert name."
+          example: "Suspicious Document Variables"
+      description: "A DFI triggered event based on a heuristic rule."
+    APIResponse:
+      required:
+      - "data"
+      - "success"
+      type: "object"
+      properties:
+        success:
+          type: "boolean"
+          description: "False if there was an error processing the request, otherwise\
+            \ True."
+        data:
+          type: "string"
+          description: "The requested info from the server."
+        error:
+          type: "string"
+          description: "The error message when handling the request if there was one."
+      description: "The stock response object for all responses from labs."
+    ArtifactType:
+      type: "string"
+      description: "An artifact type such as domain, IP, or URL."
+      enum:
+      - "asn_num"
+      - "domain"
+      - "email"
+      - "filename"
+      - "hash"
+      - "ip"
+      - "ipaddress"
+      - "url"
+      - "yarasignature"
+      default: "domain"
+    Attribute:
+      type: "object"
+      properties:
+        attribute:
+          $ref: "#/components/schemas/ArtifactType"
+        category:
+          type: "string"
+          description: "The attribute category, typically 'ioc'"
+          example: "ioc"
+        count:
+          type: "integer"
+          description: "The number of occurrances of the IOC in the file."
+          example: 3
+        value:
+          type: "string"
+          description: "The attribute value."
+          example: "example.com"
+      description: "An Attribute is an association, such as an IOC, that is made during\
+        \ DFI inspection."
+    Classification:
+      type: "string"
+      description: "Indicates the threat posed by an artifact."
+      enum:
+      - "MALICIOUS"
+      - "UNKNOWN"
+    DFIDetails:
+      type: "object"
+      properties:
+        analysis_completed:
+          type: "boolean"
+          description: "True if the DFI analysis is complete, otherwise False."
+        classification:
+          $ref: "#/components/schemas/Classification"
+        ext_code:
+          type: "string"
+          description: "The Embedded Logic extracted from the file."
+        ext_context:
+          type: "string"
+          description: "The Semantic Context extracted from the file."
+        ext_metadata:
+          type: "string"
+          description: "The Metadata extracted from the file."
+        ext_ocr:
+          type: "string"
+          description: "The Semantic OCR text extracted from the file."
+        file_type:
+          $ref: "#/components/schemas/FileType"
+        first_seen:
+          type: "string"
+          description: "The time the file was first seen."
+          example: "Wed, 02 Sep 2020 12:28:56 GMT"
+        image:
+          type: "boolean"
+          description: "True if there is an image associated with the file, otherwise\
+            \ False."
+        inquest_alerts:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Alert"
+        inquest_dfi_size:
+          type: "integer"
+          description: "The file size in bytes after DFI inspection. This size is\
+            \ typically larger than the file size due to converting binary content\
+            \ to text.\n"
+          example: 598712
+        last_inquest_dfi:
+          type: "string"
+          description: "The last time the file was inspected by DFI."
+          example: "Mon, 07 Sep 2020 23:48:40 GMT"
+        last_inquest_featext:
+          type: "string"
+          description: "The last time DFI analyzed the file."
+          example: "Wed, 07 Sep 2020 23:49:43 GMT"
+        last_updated:
+          type: "string"
+          description: "The last time the file was updated."
+          example: "Wed, 07 Sep 2020 23:49:43 GMT"
+        len_code:
+          type: "integer"
+          description: "The length in bytes of the code extracted from the file by\
+            \ DFI."
+          example: 0
+        len_context:
+          type: "integer"
+          description: "The length in bytes of the semantic context extracted from\
+            \ the file by DFI."
+          example: 106222
+        len_metadata:
+          type: "integer"
+          description: "The length in bytes of the metadata extracted from the file\
+            \ by DFI."
+          example: 1243
+        len_ocr:
+          type: "integer"
+          description: "The length in bytes of the OCR text extracted from the file\
+            \ by DFI."
+          example: 0
+        malware_label:
+          type: "string"
+          description: "The malware labels that apply to the file."
+          example: "sagent-docdl-htfcpy-emotet-classic-tioibekv-malware"
+        md5:
+          type: "string"
+          description: "The MD5 hash of the file."
+          example: "69d263c0f6641150aa72f3777eb4ca81"
+        mime_type:
+          type: "string"
+          description: "The file MIME type."
+          example: "application/vnd.ms-excel"
+        sha1:
+          type: "string"
+          description: "The SHA1 hash of the file."
+          example: "3d0d1c2f867259ebfb4674198ff7a4978a0a8520"
+        sha256:
+          type: "string"
+          description: "The SHA256 hash of the file."
+          example: "ac8ab2f4a2aa6a0ceec2743ce15d9e1ae9bf5827e78523e19215bea0c4a4c45b"
+        sha512:
+          type: "string"
+          description: "The SHA512 hash of the file."
+          example: "059c3a01a7c5b35be63959dfe0b9d71d58251613be3feec5bb82ff4e60c2f83bbb43e9cec44a981e980cb0b7133048c35f58b65f722741951a8328093f1d796d"
+        size:
+          type: "integer"
+          description: "The size of the file in bytes."
+          example: 222208
+        subcategory:
+          type: "string"
+          description: "The DFI source."
+          example: "maldoc_hunter"
+          enum:
+          - "excel40_hunter"
+          - "macro_hunter"
+          - "maldoc_hunter"
+          - "malfash_hunter"
+          - "maljar_hunter"
+          - "malpdf_hunter"
+          - "pdfjs_hunter"
+          - "phish_hunter"
+          - "rtf_hunter"
+          - "slk_hunter"
+          - "swfdoc_hunter"
+          - "xsl_hunter"
+        subcategory_url:
+          type: "string"
+          description: "The link to DFI subcategory source code."
+          example: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/maldoc_hunter.rule"
+        virus_total:
+          type: "string"
+          description: "The link to the file on Virus Total."
+          example: "https://www.virustotal.com/gui/file/ac8ab2f4a2aa6a0ceec2743ce15d9e1ae9bf5827e78523e19215bea0c4a4c45b"
+        vt_positives:
+          type: "integer"
+          description: "The Virus Total score."
+          example: 8
+        vt_weight:
+          type: "number"
+          description: "The Virus Total weight."
+          format: "float"
+          example: 2.700000047683716
+      description: "The detailed result of a DFI analysis."
+    DFIFilter:
+      required:
+      - "is_case_sensitive"
+      - "is_regex"
+      - "title"
+      - "value"
+      type: "object"
+      properties:
+        is_case_sensitive:
+          type: "boolean"
+          description: "True if the rule is case sensitive, otherwise False."
+        is_regex:
+          type: "boolean"
+          description: "True if the rule is a regular expression, otherwise False."
+        title:
+          type: "string"
+          description: "The name of the rule."
+          example: "Macro: Highlight String Operations"
+        value:
+          type: "string"
+          description: "The rule to apply."
+          example: "\\b(cstr|format|instr|instrrev|join|lcase|left|len|like|ltrim|mid|replace|right|rtrim|split|str|strcomp|strconv|string|strreverse|trim|ucase|val)\\\
+            b"
+      description: "A rule used by DFI for matching content."
+    DFIResult:
+      type: "object"
+      properties:
+        analysis_completed:
+          type: "boolean"
+          description: "True if the DFI analysis is complete, otherwise False."
+        classification:
+          $ref: "#/components/schemas/Classification"
+        file_type:
+          $ref: "#/components/schemas/FileType"
+        first_seen:
+          type: "string"
+          description: "The time the file was first seen."
+          example: "Wed, 02 Sep 2020 12:28:56 GMT"
+        image:
+          type: "boolean"
+          description: "True if there is an image associated with the file, otherwise\
+            \ False."
+        inquest_alerts:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Alert"
+        last_inquest_featext:
+          type: "string"
+          description: "The last time DFI analyzed the file."
+          example: "Wed, 02 Sep 2020 12:31:31 GMT"
+        len_code:
+          type: "integer"
+          description: "The length in bytes of the code extracted from the file by\
+            \ DFI."
+          example: 71560
+        len_context:
+          type: "integer"
+          description: "The length in bytes of the semantic context extracted from\
+            \ the file by DFI."
+          example: 21
+        len_metadata:
+          type: "integer"
+          description: "The length in bytes of the metadata extracted from the file\
+            \ by DFI."
+          example: 1308
+        len_ocr:
+          type: "integer"
+          description: "The length in bytes of the OCR text extracted from the file\
+            \ by DFI."
+          example: 276
+        mime_type:
+          type: "string"
+          description: "The MIME type of the file."
+          example: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        sha_256:
+          type: "string"
+          description: "The SHA256 hash of the file."
+          example: "d6ac955b6756b0ca5eb236db66dc54c1e84c74067ace61b47adcbe1409c66222"
+        size:
+          type: "integer"
+          description: "The size of the file in bytes."
+          example: 92646
+        subcategory:
+          type: "string"
+          description: "The DFI source."
+          example: "macro_hunter"
+          enum:
+          - "excel40_hunter"
+          - "macro_hunter"
+          - "maldoc_hunter"
+          - "malfash_hunter"
+          - "maljar_hunter"
+          - "malpdf_hunter"
+          - "pdfjs_hunter"
+          - "phish_hunter"
+          - "rtf_hunter"
+          - "slk_hunter"
+          - "swfdoc_hunter"
+          - "xsl_hunter"
+        subcategory_url:
+          type: "string"
+          description: "The link to DFI subcategory source code."
+          example: "https://github.com/InQuest/yara-rules/blob/master/labs.inquest.net/macro_hunter.rule"
+        vt_positives:
+          type: "integer"
+          description: "The Virus Total score."
+          example: 8
+        vt_weight:
+          type: "number"
+          description: "The Virus Total weight."
+          format: "float"
+          example: 2.700000047683716
+      description: "The result of DFI analysis."
+    FileType:
+      type: "string"
+      description: "A valid file type that can be analyzed."
+      enum:
+      - "DOC"
+      - "DOCX"
+      - "EML"
+      - "OLE"
+      - "PPT"
+      - "XLS"
+    Indicator:
+      required:
+      - "artifact"
+      - "artifact_type"
+      - "created_date"
+      type: "object"
+      properties:
+        artifact:
+          type: "string"
+          description: "The value of the artifact."
+          example: "exploit.co"
+        artifact_type:
+          $ref: "#/components/schemas/ArtifactType"
+        created_date:
+          type: "string"
+          description: "The artifact first-seen datetime."
+          example: "Fri, 04 Sep 2020 05:27:08 GMT"
+        reference_link:
+          type: "string"
+          description: "The URL where the artifact was originally found."
+          example: "https://twitter.com/ecarlesi/status/13017518359XXXXXXXX"
+        reference_text:
+          description: "The scrapped text containing the raw artifact."
+          example: "Possible threat on hxxps://getvanillacake[.]com/20200903_phplord_8587346d818cd36XXXXX_202009031XXXXX_archive[.]zip\
+            \ #phishing #opendir"
+      description: "An OSINT indicator pulled from the web."
+    Reputation:
+      required:
+      - "created_date"
+      - "data"
+      - "data_type"
+      - "source"
+      type: "object"
+      properties:
+        created_date:
+          type: "string"
+          description: "The artifact first-seen datetime."
+          example: "Fri, 04 Sep 2020 05:27:08 GMT"
+        data:
+          type: "string"
+          description: "The value of the artifact."
+          example: "exploit.co"
+        data_type:
+          $ref: "#/components/schemas/ArtifactType"
+        derived:
+          type: "string"
+          description: "The domain, host, or IP address extracted from the artifact\
+            \ if such extraction is possible."
+          example: "exploit.co"
+        derived_type:
+          $ref: "#/components/schemas/ArtifactType"
+        source:
+          type: "string"
+          description: "The source reputation feed."
+          example: "urlhaus"
+        source_url:
+          type: "string"
+          description: "The link to the artifact on the reputation feed."
+      description: "An artifact aggregated from a threat intelligence feed."
+  securitySchemes:
+    authorization:
+      type: "apiKey"
+      description: "Use of an API key on InQuest Labs is optional. However, without\
+        \ an API key, requests are rate limited to 1337 requests per day and you will\
+        \ not be able to download sample files.\n"
+      name: "Authorization"
+      in: "header"
+      x-apikeyInfoFunc: "labs.no_limits"
